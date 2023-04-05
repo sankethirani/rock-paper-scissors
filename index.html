@@ -7,7 +7,9 @@
     <body>
         <script>
             const choiceOptions = ["rock", "paper", "scissors"];
-            //const playerSelection = prompt("Please enter rock, paper or scissors").toLowerCase;
+            //const playerSelection = 
+            let playerWinCounter = 0;
+            let computerWinCounter = 0;
 
             function getComputerChoice(){
                 return choiceOptions[Math.floor(Math.random() * choiceOptions.length)];
@@ -19,6 +21,7 @@
                     (playerSelection === 'paper' && computerSelection === 'scissors') ||
                     (playerSelection === 'scissors' && computerSelection === 'rock')
                 ) {
+                    computerWinCounter += 1;
                     return (`You loose! ${computerSelection} beats ${playerSelection}`);
                 }
                 else if (
@@ -26,19 +29,58 @@
                     (computerSelection === 'paper' && playerSelection === 'scissors') ||
                     (computerSelection === 'scissors' && playerSelection === 'rock')
                 ) {
+                    playerWinCounter += 1;
                     return (`You win! ${playerSelection} beats ${computerSelection}`);
                 }
                 else if (computerSelection === playerSelection){
                     return ("It's a draw!");
                 }
                 else{
-                    return ("Pleae make sure you are entering the right input");
+                    
                 }
             }
 
-            const playerSelection = "rock";
-            const computerSelection = getComputerChoice();
-            console.log(playRound(playerSelection, computerSelection));
+            function validatePlayerInput(playerInput){
+                if(playerInput === 'rock' || playerInput === 'paper' || playerInput === 'scissors'){
+                    return true;
+                }
+                else return false;
+            }
+
+            function getGameWinner(){
+                if (playerWinCounter > computerWinCounter){
+                    return 'Player 1 wins';
+                }
+                else if (computerWinCounter > playerWinCounter){
+                    return 'Computer wins';
+                }
+                else{
+                    return "It's a draw";
+                }
+                
+            }
+            function game(){
+                let round = 0;
+                while (round < 5 ){
+                    const playerInput =  prompt("Please enter rock, paper or scissors").trim().toLowerCase();
+                    if (validatePlayerInput(playerInput)) {
+                        const playerSelection = playerInput;
+                        const computerSelection = getComputerChoice();
+                        console.log(playRound(playerSelection, computerSelection));
+                        round += 1;
+                    }
+                    else{
+                        alert ("Please make sure you are entering the right input");
+                    }
+                }
+
+                const gameWinner = getGameWinner();
+                console.log (`${gameWinner}! Final score is Player ${playerWinCounter} - ${computerWinCounter} Computer`);
+            }
+
+            game();
+            
+
 
         </script>
         
