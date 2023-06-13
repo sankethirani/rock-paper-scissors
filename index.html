@@ -5,11 +5,19 @@
         <title>Rock Paper Scissors</title>
     </head>
     <body>
+        <button value = "rock" >Rock</button>
+        <button value = "paper" >Paper</button>
+        <button value = "scissors" >Scissors</button>
+
+        <p class = "result"></p>
+        <p class = "score"></p>
+
         <script>
             const choiceOptions = ["rock", "paper", "scissors"];
-            //const playerSelection = 
             let playerWinCounter = 0;
             let computerWinCounter = 0;
+            const output = document.querySelector(".result");
+            const scoreDisplay = document.querySelector(".score");
 
             function getComputerChoice(){
                 return choiceOptions[Math.floor(Math.random() * choiceOptions.length)];
@@ -47,40 +55,55 @@
                 else return false;
             }
 
-            function getGameWinner(){
-                if (playerWinCounter > computerWinCounter){
-                    return 'Player 1 wins';
+            function playGame(e){
+                const playerSelection = this.value;
+                const computerSelection = getComputerChoice();
+                output.textContent = playRound(playerSelection, computerSelection);
+                scoreDisplay.textContent = `Player ${playerWinCounter} - ${computerWinCounter} Computer`;
+
+                if(playerWinCounter === 5 || computerWinCounter === 5){
+                    buttons.forEach(button => button.removeEventListener("click", playGame));
+                    if (playerWinCounter === 5) output.textContent = "Congratulations! You beat the computer";
+                    else output.textContent = "You loose! AI is taking over";
                 }
-                else if (computerWinCounter > playerWinCounter){
-                    return 'Computer wins';
-                }
-                else{
-                    return "It's a draw";
-                }
+            }
+
+            const buttons = document.querySelectorAll("button");
+            buttons.forEach(button => button.addEventListener('click', playGame));
+
+            // function getGameWinner(){
+            //     if (playerWinCounter > computerWinCounter){
+            //         return 'Player 1 wins';
+            //     }
+            //     else if (computerWinCounter > playerWinCounter){
+            //         return 'Computer wins';
+            //     }
+            //     else{
+            //         return "It's a draw";
+            //     }
                 
-            }
-            function game(){
-                let round = 0;
-                while (round < 5 ){
-                    const playerInput =  prompt("Please enter rock, paper or scissors").trim().toLowerCase();
-                    if (validatePlayerInput(playerInput)) {
-                        const playerSelection = playerInput;
-                        const computerSelection = getComputerChoice();
-                        console.log(playRound(playerSelection, computerSelection));
-                        round += 1;
-                    }
-                    else{
-                        alert ("Please make sure you are entering the right input");
-                    }
-                }
+            // }
 
-                const gameWinner = getGameWinner();
-                console.log (`${gameWinner}! Final score is Player ${playerWinCounter} - ${computerWinCounter} Computer`);
-            }
+            // function game(){
+            //     let round = 0;
+            //     while (round < 5 ){
+            //         const playerInput =  prompt("Please enter rock, paper or scissors").trim().toLowerCase();
+            //         if (validatePlayerInput(playerInput)) {
+            //             const playerSelection = playerInput;
+            //             const computerSelection = getComputerChoice();
+            //             console.log(playRound(playerSelection, computerSelection));
+            //             round += 1;
+            //         }
+            //         else{
+            //             alert ("Please make sure you are entering the right input");
+            //         }
+            //     }
 
-            game();
-            
+            //     const gameWinner = getGameWinner();
+            //     console.log (`${gameWinner}! Final score is Player ${playerWinCounter} - ${computerWinCounter} Computer`);
+            // }
 
+            // game();
 
         </script>
         
